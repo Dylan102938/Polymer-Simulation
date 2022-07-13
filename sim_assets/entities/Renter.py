@@ -1,9 +1,10 @@
-from Home import Home
-from HomeOwner import HomeOwnerConfig, HomeOwner
+from sim_assets.entities.HomeOwner import HomeOwnerConfig, HomeOwner
+from sim_assets.entities.Home import Home
 
 
 class RenterConfig(HomeOwnerConfig):
     income: float
+    income_tax: float
     inc_growth_rate: float
     equity_contr: float
 
@@ -11,23 +12,18 @@ class RenterConfig(HomeOwnerConfig):
 class Renter(HomeOwner):
     def __init__(self, renter_id: str, config: RenterConfig):
         HomeOwner.__init__(self, renter_id, config)
+        self.config = config
         self.income = config['income']
-        self.residence = None
+        self.residence: Home = None
 
     def get_income(self) -> None:
-        self.savings += self.income
+        self.savings += (1 - self.config['income_tax']) * self.income
 
-    def rent(self, home: Home, with_polymer=False) -> None:
-        assert home.renter is None, f"{self.person_id} cannot rent home {home.home_id} because someone already is " \
-                                    f"renting it. "
-
+    def rent(self, home: Home) -> None:
         self.residence = home
-        home.renter = self
-        if with_polymer:
-            self.homes_owned[home.home_id] = {'equity_owned': 0, 'home_info': home}
-            home.other_owners[self.person_id] = self
+        if self.config['with_polymer']:
+            self.homes_owned[home.entity_id] = {'equity_owned': 0, 'home_info': home}
 
-    def contribute_equity(self, amount: float):
-        assert self.residence.home_id in self.homes_owned, f"Cannot contribute equity to house {self.residence} because {self.person_id} does not have equity"
+    def pay_rent(self) -> float:
+        return self.pay(self.residence.rent, self.residence, "rent")
 
-        self.residence.add_equity(self, amount)
