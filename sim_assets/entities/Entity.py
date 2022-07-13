@@ -13,6 +13,6 @@ class Entity:
         self.savings -= amount
         other.savings += amount
 
-        print(f"{self.entity_id} pays {other.entity_id} {amount} for {reason}")
+        print(f"LOG: {self.entity_id} pays {other.entity_id} {amount} for {reason}")
 
         return amount

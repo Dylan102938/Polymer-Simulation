@@ -1,5 +1,4 @@
 from sim_assets.entities.Home import Home
-from sim_assets.entities.Renter import Renter
 from sim_assets.entities.HomeOwner import HomeOwner
 from sim_assets.env.Environment import Environment
 
@@ -50,8 +49,6 @@ def test_ten_years_with_env():
         'default_income_appr_rate': 0.04,
         'default_equity_contr': 0.5,
         'tax_brackets': [{'max_amount': 1000000000, 'tax': 0.37}],
-        'inflation': 0.025,
-        'savings_appr': 0.007,
     }
 
     env = Environment(config)
@@ -60,10 +57,14 @@ def test_ten_years_with_env():
         "rent": 36363.63
     }))
     env.add_homeowner(HomeOwner("betty", {
+        "income": 80000,
+        "income_tax": 0.3,
+        "inc_growth_rate": 0.06,
+        "equity_contr": 0.5,
         "savings": 800000,
         "with_polymer": True
     }))
-    env.add_renter(Renter("andy", {
+    env.add_renter(HomeOwner("andy", {
         "income": 80000,
         "income_tax": 0.3,
         "inc_growth_rate": 0.06,
@@ -71,6 +72,8 @@ def test_ten_years_with_env():
         "savings": 10000,
         "with_polymer": True
     }))
+
+    print()
 
     env.purchase_home(env.homeowners['betty'], env.homes['shitty-house'])
     env.rent(env.renters['andy'], env.homes['shitty-house'])
