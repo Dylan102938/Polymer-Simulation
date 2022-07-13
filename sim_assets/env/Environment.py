@@ -57,7 +57,7 @@ class Environment:
         assert renter.entity_id not in self.homes, f"Renter {renter.entity_id} is already part of this environment"
         self.renters[renter.entity_id] = renter
 
-        if renter.with_polymer and renter.entity_id not in self.homeowners:
+        if renter.entity_id not in self.homeowners:
             self.homeowners[renter.entity_id] = renter
 
     def purchase_home(self, purchaser: HomeOwner, home: Home) -> None:
@@ -77,8 +77,7 @@ class Environment:
                                                                                   f"environment "
         assert home.entity_id in self.home_map, f"Home is not currently being owned by an owner in the environment"
         renter.residence = home
-        if renter.with_polymer:
-            self.home_map[home.entity_id][renter.entity_id] = 0
+        self.home_map[home.entity_id][renter.entity_id] = 0
 
         print(f"LOG: {renter.entity_id} is renting at home {home.entity_id}")
 
@@ -87,9 +86,9 @@ class Environment:
             renter.get_income()
 
         self.process_rent()
-        self.contribute_equities()
         self.appreciate_income()
         self.appreciate_homes()
+        self.contribute_equities()
 
         log: Log = {
             'homes': dict(),
@@ -152,7 +151,7 @@ class Environment:
 
                 equity_to_take = equity_to_contr * (owners_equity[owner_id] / (1 - owners_equity[renter.entity_id]))
                 renter.pay(
-                    equity_to_take * home.prop_val,
+                    equity_to_take * home.prop_val * 1.1,
                     self.homeowners[owner_id],
                     f"{equity_to_take} equity in home {home.entity_id}"
                 )
@@ -161,8 +160,6 @@ class Environment:
 
     def print_logs(self) -> None:
         print(json.dumps(self.logs, indent=4))
-
-    def write_logs(self) -> None:
 
     def get_net_worth(self, individual: HomeOwner):
         net_worth = individual.savings
