@@ -121,6 +121,8 @@ class Environment:
             for owner_id in owners_equity:
                 owner = self.homeowners[owner_id]
                 renter.pay(owners_equity[owner_id] * home.rent, owner, "rent")
+                print(self.get_net_worth(renter))
+                print(renter.savings)
 
     def appreciate_income(self) -> None:
         for owner in self.homeowners.values():

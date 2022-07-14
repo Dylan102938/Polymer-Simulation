@@ -7,7 +7,7 @@ class Entity:
         self.savings = savings
 
     def pay(self, amount: float, other: 'Entity', reason: str) -> float:
-        amount = math.floor(amount * 100) / 100
+        amount = round(amount * 100) / 100
         assert amount <= (self.savings + 0.0001), f"{self.entity_id} does not have enough assets to pay {other.entity_id} {amount} for {reason} "
 
         other.savings += amount

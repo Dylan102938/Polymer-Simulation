@@ -107,7 +107,7 @@ def test_ten_years_with_polymer_reinvest():
     env.purchase_home(env.homeowners['betty'], env.homes['shitty-house'])
     env.purchase_home(env.homeowners['charlie'], env.homes['shitty-house-2'])
     env.rent(env.renters['andy'], env.homes['shitty-house'])
-    env.rent(env.renters['betty'], env.homes['shitty-house-2'])
+    # env.rent(env.renters['betty'], env.homes['shitty-house-2'])
 
     for _ in range(10):
         env.progress_one_year()
@@ -116,7 +116,6 @@ def test_ten_years_with_polymer_reinvest():
 
 
 def main():
-    test_ten_years_without_polymer()
     test_ten_years_with_polymer_reinvest()
 
 
