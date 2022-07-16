@@ -1,0 +1,10 @@
+{
+    "home_appr_rate": 0.042,
+    "default_home_price": 800000,
+    "default_rent_rate": 0.04,
+    "default_income_appr_rate": 0.04,
+    "default_equity_contr": 0.5,
+    "tax_brackets": [
+      {"max_amount": 1000000000, "tax": 0.226}
+    ]
+}

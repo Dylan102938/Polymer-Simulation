@@ -1,0 +1,8 @@
+{
+    "income": 140000,
+    "income_tax": 0.337,
+    "inc_growth_rate": 0.06,
+    "savings": 30000,
+    "with_polymer": false,
+    "equity_contr": 0.5
+}
